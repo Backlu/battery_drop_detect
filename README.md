@@ -1,10 +1,10 @@
-# F45 Battery Drop Detect
+# Battery Drop Detect
 
 ## DS的部分
 ### Service: Battery Drop Detect
 - folder: service_batteryDropDetect
 - cmd: 
-    - python3 service_batteryDropDetect/f45_inference_main_online.py {crontabEndTimeOfHour} {crontabEndTimeOfMin} {camera_mid}
+    - python3 service_batteryDropDetect/inference_main_online.py {crontabEndTimeOfHour} {crontabEndTimeOfMin} {camera_mid}
 - 系統上線執行方式
     - 排程執行schedule.sh
 - 排程方式: crontab (root)
@@ -46,8 +46,8 @@
 |  module   | function  |
 |  ----  | ----  |
 | cam_quality_check_main.py | 檢查camera quality |
-| f45_quality_check.py | F45 camera quality檢查模組 |
-| f68_quality_check.py | F68 camera quality檢查模組 (待移回F68專案repo) |
+| f45_quality_check.py | camera quality檢查模組 |
+| f68_quality_check.py | camera quality檢查模組 (待移回F68專案repo) |
 | camera_image_plot.py | 把所有的camera畫面組成一張圖 |
 | cam_image_reflash_main.py | 只更新camera畫面, 不檢查quality |
 | Dev_camera_quality_check.ipynb | sample code |
