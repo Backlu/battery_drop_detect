@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {job_name}
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 7
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: data-package-volume
+              hostPath:
+                path: /mnt/hdd1
+                type: Directory
+            - name: project-volume
+              hostPath:
+                path: /mnt/hdd/f45movement
+                type: Directory
+          containers:
+            - name: f45-cqa
+              image: "aa/f45_inference:latest"
+              imagePullPolicy: IfNotPresent
+              command: [ "python", "service_batteryDropDetect/f45_inference_main_online.py" ]
+              args: ["23", "30", {mid}]
+              env:
+                - name: ALIYUN_GPU_MEMORY
+                  value: '22698'
+                - name: ALIYUN_POD_GPU_MEMORY
+                  value: '1800'
+                - name: NVIDIA_VISIBLE_DEVICES
+                  value: "all"
+              resources:
+                limits:
+                  aliyun.com/gpu-mem: 1800
+                  memory: "10Gi"
+                requests:
+                  memory: "5Gi"
+              volumeMounts:
+                - mountPath: "/mnt/hdd1/"
+                  name: data-package-volume
+                - mountPath: "/usr/src/app/"
+                  name: project-volume
+          nodeSelector:
+            schedule: {gpu_id}
+          restartPolicy: OnFailure
+  schedule: "5 16 * * *"
+  successfulJobsHistoryLimit: 7

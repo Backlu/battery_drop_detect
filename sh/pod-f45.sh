@@ -1,0 +1,2 @@
+cat yaml/pod-f45.yaml | sed "s/{gpu_id}/'$1'/; s/{mid}/'$2'/; s/{job_name}/'$3'/; s/{DATE}/$(date +%Y%m%d)/" | kubectl apply -f -
+cat yaml/cronjob-f45.yaml | sed "s/{gpu_id}/'$1'/; s/{mid}/'$2'/; s/{job_name}/'$3'/; s/{DATE}/$(date +%Y%m%d)/" | kubectl apply -f -
